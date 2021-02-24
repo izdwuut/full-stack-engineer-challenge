@@ -15,6 +15,11 @@ app.get('/', async (req, res) => {
         res.send({
             result: pads
         });
+    }).catch(err => {
+        res.status(400)
+        res.send({
+            result: err
+        })
     })
     
 });
@@ -25,6 +30,11 @@ app.get('/:id', async (req, res) => {
         res.send({
             result: pad
         });
+    }).catch(err => {
+        res.status(400)
+        res.send({
+            result: err
+        })
     })
 });
 
