@@ -1,0 +1,3 @@
+export const GET_LANDING_PODS = 'GET_LANDING_PODS'
+export const GET_LANDING_POD = 'GET_LANDING_POD'
+export const GET_ERROR = 'GET_ERROR'
