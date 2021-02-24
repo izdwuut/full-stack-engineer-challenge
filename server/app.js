@@ -1,16 +1,22 @@
+const api = require('./api')
+
 const dbPool = require('./db');
-const express =require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', async (req, res) => {
-    const rows = await dbPool.query('SELECT * FROM spaceData');
+    const rows = await dbPool.pool.query('SELECT * FROM spaceData');
     res.status(200);
+    api.getLandingPads().then(pads => {
+        // console.log(pads)
+    })
     res.send({
+        
         result: JSON.stringify(rows)
     });
 });

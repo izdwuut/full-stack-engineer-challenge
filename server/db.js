@@ -35,4 +35,24 @@ pool.getConnection((err, connection) => {
 
 pool.query = promisify(pool.query);
 
-module.exports = pool;
+function insertLandingPads(landingPads) {
+    let queryItems = []
+    for(const landingPad of landingPads) {
+        pool.query('SELECT id FROM spaceData').then(pads => {
+            if (!pads.includes(landingPad.id)) {
+                queryItems.push([
+                    landingPad.id,
+                    JSON.stringify(landingPad)
+                ])
+            }
+        })
+    }
+    if(queryItems.length > 0) {
+        pool.query(`INSERT INTO spaceData(id, spaceItem) VALUES ?`, [queryItems])
+    }
+}
+
+module.exports = {
+    pool: pool,
+    insertLandingPads: insertLandingPads
+};
