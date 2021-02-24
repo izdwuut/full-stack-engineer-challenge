@@ -60,8 +60,15 @@ function insertLandingPads(landingPads) {
 
 function getLandingPad(id) {
     pool.query(`SELECT * FROM spaceData WHERE id="${id}"`).then(pads => {
+        
         if (pads.length > 0) {
-            return pads[0]
+            const pad = pads[0]
+            return {
+                id: pad.id,
+                fullName: pad.full_name,
+                status: pad.status,
+                location: pad.location
+            }
         }
     })
     return null

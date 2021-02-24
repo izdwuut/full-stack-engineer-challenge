@@ -52,7 +52,13 @@ function getLandingPad(id) {
             });
             
             resp.on('end', () => {
-                resolve(data)
+                const pad = JSON.parse(data)
+                resolve({
+                    id: pad.id,
+                    fullName: pad.full_name,
+                    status: pad.status,
+                    location: pad.location
+                })
             });
 
             resp.on('error', (error) => {

@@ -13,7 +13,7 @@ app.get('/', async (req, res) => {
     api.getLandingPads().then(pads => {
         res.status(200);
         res.send({
-            result: JSON.stringify(pads)
+            result: pads
         });
     })
     
