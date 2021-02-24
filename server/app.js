@@ -10,15 +10,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', async (req, res) => {
-    const rows = await dbPool.pool.query('SELECT * FROM spaceData');
-    res.status(200);
     api.getLandingPads().then(pads => {
-        // console.log(pads)
+        res.status(200);
+        res.send({
+            result: JSON.stringify(pads)
+        });
     })
-    res.send({
-        
-        result: JSON.stringify(rows)
-    });
+    
+});
+
+app.get('/:id', async (req, res) => {
+    api.getLandingPad(req.params.id).then(pad => {
+        res.status(200);
+        res.send({
+            result: pad
+        });
+    })
 });
 
 app.listen('4000');

@@ -1,4 +1,5 @@
 const https = require('https');
+const { pool } = require('./db');
 const db = require('./db');
 
 const baseUrl = 'https://api.spacexdata.com/v3'
@@ -37,6 +38,31 @@ function getLandingPads() {
     });
 }
 
+function getLandingPad(id) {
+    return new Promise((resolve, reject) => {
+        const landingPad = db.getLandingPad(id)
+        if (landingPad !== null) {
+            resolve(landingPad)
+        }
+        https.get(baseUrl + endpoints.landingPads + '/' + id, (resp) => {
+            let data = '';
+            
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+            
+            resp.on('end', () => {
+                resolve(data)
+            });
+
+            resp.on('error', (error) => {
+                reject(error)
+            })
+        })
+    });
+}
+
 module.exports = {
-    getLandingPads: getLandingPads
+    getLandingPads: getLandingPads,
+    getLandingPad: getLandingPad
 }
